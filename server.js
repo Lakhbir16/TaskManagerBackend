@@ -23,15 +23,12 @@ app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'Server is running' });
 });
 
-const path = require('path');
-
-app.use(express.static(path.join(__dirname, '../frontend/dist')));
+app.get('/', (req, res) => {
+  res.json({ success: true, message: 'Task Manager API is running.' });
+});
 
 app.use('*', (req, res) => {
-  if (req.originalUrl.startsWith('/api')) {
-    return res.status(404).json({ success: false, message: 'API Route not found' });
-  }
-  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+  res.status(404).json({ success: false, message: 'API Route not found' });
 });
 
 app.use((err, req, res, next) => {
